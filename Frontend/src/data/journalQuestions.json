@@ -1,0 +1,78 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "How I am feeling right now?",
+      "emoji": "😊",
+      "placeholder": "Describe your current emotional state...",
+      "type": "text",
+      "category": "emotional"
+    },
+    {
+      "id": 2,
+      "question": "What did I do today that actually matters?",
+      "emoji": "🌟",
+      "placeholder": "Think about your meaningful actions, big or small...",
+      "type": "text",
+      "category": "meaning"
+    },
+    {
+      "id": 3,
+      "question": "What weight am I carrying on my shoulders that I don't need to?",
+      "emoji": "🎒",
+      "placeholder": "What worries, guilt, or burdens can you let go of?",
+      "type": "text",
+      "category": "mindfulness"
+    },
+    {
+      "id": 4,
+      "question": "If tomorrow never came, would I be proud of how I lived today?",
+      "emoji": "⏳",
+      "placeholder": "Reflect on your actions, words, and choices...",
+      "type": "text",
+      "category": "legacy"
+    },
+    {
+      "id": 5,
+      "question": "What was the best part of my day?",
+      "emoji": "✨",
+      "placeholder": "Share a highlight, no matter how small...",
+      "type": "text",
+      "category": "gratitude"
+    },
+    {
+      "id": 6,
+      "question": "What challenged me today and what did I learn from it?",
+      "emoji": "💪",
+      "placeholder": "What was difficult and what wisdom did you gain?",
+      "type": "text",
+      "category": "growth"
+    },
+    {
+      "id": 7,
+      "question": "What I am grateful for right now?",
+      "emoji": "🙏",
+      "placeholder": "Name at least three things, big or small...",
+      "type": "text",
+      "category": "gratitude"
+    },
+    {
+      "id": 8,
+      "question": "What intention would I like to set for tomorrow?",
+      "emoji": "🎯",
+      "placeholder": "One small, meaningful intention...",
+      "type": "text",
+      "category": "intention"
+    }
+  ],
+  "moodOptions": [
+    { "value": "amazing", "emoji": "🤩", "label": "Amazing", "color": "bg-green-500" },
+    { "value": "good", "emoji": "😊", "label": "Good", "color": "bg-green-400" },
+    { "value": "okay", "emoji": "😐", "label": "Okay", "color": "bg-yellow-400" },
+    { "value": "thoughtful", "emoji": "🤔", "label": "Thoughtful", "color": "bg-blue-400" },
+    { "value": "heavy", "emoji": "😮‍💨", "label": "Heavy", "color": "bg-purple-400" },
+    { "value": "grateful", "emoji": "🥹", "label": "Grateful", "color": "bg-pink-400" },
+    { "value": "bad", "emoji": "😔", "label": "Bad", "color": "bg-red-400" },
+    { "value": "awful", "emoji": "😫", "label": "Awful", "color": "bg-red-600" }
+  ]
+}
