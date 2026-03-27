@@ -1,16 +1,18 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// NO dotenv import - it's already loaded
-console.log('🔑 Initializing Gemini Controller...');
-console.log('🔑 GEMINI_API_KEY exists:', !!process.env.GEMINI_API_KEY);
-
+// Initialize Gemini with your API key
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// @desc    Generate beautiful journal entry using Gemini
+// @route   POST /api/gemini/generate
+// @access  Private
 export const generateJournalEntry = async (req, res) => {
   try {
-    const { answers, mood } = req.body;
+    const { answers, mood, mindset } = req.body;
 
-    console.log('📝 Generating journal entry...');
+    console.log('📝 Generating natural journal entry...');
+    console.log('Mood:', mood);
+    console.log('Answers:', answers);
 
     if (!answers || answers.length === 0) {
       return res.status(400).json({
@@ -26,38 +28,31 @@ export const generateJournalEntry = async (req, res) => {
       day: 'numeric' 
     });
 
-    const answersText = answers.map((ans, i) => {
-      const questions = [
-        "How are you feeling",
-        "What matters today",
-        "What weight to let go",
-        "Would I be proud",
-        "Best part of day",
-        "Challenge and learning",
-        "Gratitude",
-        "Tomorrow's intention"
-      ];
-      return `${questions[i]}: ${ans}`;
-    }).join('\n');
+    // Join answers with context
+    const answersText = answers.join('\n\n');
 
-    const prompt = `You are a warm, thoughtful journaling assistant. Create a beautiful, reflective journal entry based on these answers:
+    const prompt = `You are helping someone write a personal journal entry. The person has answered some questions about their day. Your job is to turn their answers into ONE natural, flowing paragraph that sounds exactly like they wrote it themselves.
 
-Today's Mood: ${mood.emoji} ${mood.label}
-Date: ${date}
+IMPORTANT RULES:
+- Write like a real person talking to themselves
+- Use simple, everyday language
+- Keep their unique voice and personality
+- Don't use fancy words or complex sentences
+- Make it feel raw and authentic
+- It should sound like someone journaling privately
+- Fix grammar naturally without making it sound perfect
+- Use phrases like "I feel...", "I think...", "I realize..."
+- Keep their original style (short sentences, fragments, etc.)
+- No AI-sounding phrases like "In conclusion" or "Furthermore"
 
-User's reflections:
+Here are their answers:
 ${answersText}
 
-Write a SINGLE flowing paragraph that:
-1. Weaves all reflections together naturally
-2. Fixes grammar/spelling mistakes
-3. Adds emotional depth and wisdom
-4. Ends with a hopeful note
+Overall mood: ${mood.label} ${mood.emoji}
+Date: ${date}
 
-Return ONLY the paragraph, nothing else.`;
+Write ONE paragraph that flows naturally. Make it sound like they're writing to themselves. Keep it under 150 words. Return ONLY the paragraph.`;
 
-    console.log('🤖 Sending to Gemini...');
-    
     const model = genAI.getGenerativeModel({ model: "models/gemini-2.5-flash" });
     const result = await model.generateContent(prompt);
     const response = await result.response;
@@ -71,8 +66,7 @@ Return ONLY the paragraph, nothing else.`;
   } catch (error) {
     console.error('❌ Gemini API Error:', error);
     
-    const fallbackEntry = `Today, ${new Date().toLocaleDateString()}, was a ${req.body.mood?.label?.toLowerCase() || 'peaceful'} day. ${req.body.answers?.join(' ') || 'A day of reflection.'}`;
-    
+    const fallbackEntry = generateFallbackEntry(req.body.answers, req.body.mood);
     res.json({
       success: true,
       entry: fallbackEntry,
@@ -81,6 +75,9 @@ Return ONLY the paragraph, nothing else.`;
   }
 };
 
+// @desc    Test Gemini connection
+// @route   GET /api/gemini/test
+// @access  Private
 export const testGeminiConnection = async (req, res) => {
   try {
     console.log('🧪 Testing Gemini connection...');
@@ -103,3 +100,34 @@ export const testGeminiConnection = async (req, res) => {
     });
   }
 };
+
+// Natural fallback entry
+function generateFallbackEntry(answers, mood) {
+  const date = new Date().toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+
+  let entry = `Today, ${date}, I'm feeling ${mood.label.toLowerCase()}. `;
+  
+  // Add each answer naturally
+  answers.forEach((answer, i) => {
+    if (answer) {
+      if (i === 0) entry += `${answer} `;
+      else if (i === 1) entry += `What mattered today was ${answer}. `;
+      else if (i === 2) entry += `I'm trying to let go of ${answer}. `;
+      else if (i === 3) entry += `I think about ${answer}. `;
+      else if (i === 4) entry += `The best part was ${answer}. `;
+      else if (i === 5) entry += `I learned that ${answer}. `;
+      else if (i === 6) entry += `I'm grateful for ${answer}. `;
+      else if (i === 7) entry += `Tomorrow, I want to ${answer}. `;
+      else entry += `${answer} `;
+    }
+  });
+  
+  entry += `That's where my head is at today.`;
+  
+  return entry;
+}

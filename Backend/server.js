@@ -11,6 +11,7 @@ console.log('- GEMINI_API_KEY prefix:', process.env.GEMINI_API_KEY?.substring(0,
 console.log('- MONGO_URI exists:', !!process.env.MONGO_URI);
 
 // THEN: Import routes (after env is loaded)
+import aiBotRoutes from './routes/aiBotRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import journalRoutes from './routes/journalRoutes.js';
 import geminiRoutes from './routes/geminiRoutes.js';
@@ -32,7 +33,10 @@ mongoose.connect(process.env.MONGO_URI)
   console.error('❌ MongoDB Error:', err.message);
   process.exit(1);
 });
+// Add this import
 
+// Add this route
+app.use('/api/aibot', aiBotRoutes);
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/journal', journalRoutes);

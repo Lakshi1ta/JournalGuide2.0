@@ -1,29 +1,108 @@
 import JournalEntry from '../models/JournalEntry.js';
 
+// @desc    Create a new journal entry (or update if exists for today)
+// @route   POST /api/journal
+// @access  Private
 export const createJournalEntry = async (req, res) => {
   try {
-    const { mood, content, date } = req.body;
+    const { mood, content, answers, mindset, questions } = req.body;
+    
+    // Get start and end of today
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
+    // Check if user already has an entry for today
+    const existingEntry = await JournalEntry.findOne({
+      user: req.user.id,
+      date: {
+        $gte: today,
+        $lt: tomorrow
+      }
+    });
+
+    if (existingEntry) {
+      // Update existing entry
+      existingEntry.mood = mood;
+      existingEntry.content = content;
+      existingEntry.answers = answers;
+      existingEntry.mindset = mindset;
+      existingEntry.questions = questions;
+      existingEntry.updatedAt = new Date();
+      
+      await existingEntry.save();
+      
+      return res.json({
+        success: true,
+        data: existingEntry,
+        message: 'Journal entry updated successfully',
+        isUpdate: true
+      });
+    }
+
+    // Create new entry
     const journalEntry = await JournalEntry.create({
       user: req.user.id,
       mood,
       content,
-      date: date || Date.now()
+      answers,
+      mindset,
+      questions,
+      date: new Date()
     });
 
     res.status(201).json({
       success: true,
-      data: journalEntry
+      data: journalEntry,
+      message: 'Journal entry created successfully',
+      isUpdate: false
     });
+
   } catch (error) {
-    console.error('Error creating journal entry:', error);
+    console.error('Error creating/updating journal entry:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to create journal entry'
+      error: 'Failed to create/update journal entry'
     });
   }
 };
 
+// @desc    Get today's journal entry if exists
+// @route   GET /api/journal/today
+// @access  Private
+export const getTodaysJournal = async (req, res) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const entry = await JournalEntry.findOne({
+      user: req.user.id,
+      date: {
+        $gte: today,
+        $lt: tomorrow
+      }
+    });
+
+    res.json({
+      success: true,
+      hasEntry: !!entry,
+      entry: entry || null
+    });
+  } catch (error) {
+    console.error('Error fetching today\'s entry:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch today\'s entry'
+    });
+  }
+};
+
+// @desc    Get all journal entries for logged in user
+// @route   GET /api/journal
+// @access  Private
 export const getJournalEntries = async (req, res) => {
   try {
     const entries = await JournalEntry.find({ user: req.user.id })
@@ -43,6 +122,9 @@ export const getJournalEntries = async (req, res) => {
   }
 };
 
+// @desc    Get journal statistics for user
+// @route   GET /api/journal/stats
+// @access  Private
 export const getJournalStats = async (req, res) => {
   try {
     const entries = await JournalEntry.find({ user: req.user.id });
@@ -114,6 +196,9 @@ export const getJournalStats = async (req, res) => {
   }
 };
 
+// @desc    Delete journal entry
+// @route   DELETE /api/journal/:id
+// @access  Private
 export const deleteJournalEntry = async (req, res) => {
   try {
     const entry = await JournalEntry.findOne({
