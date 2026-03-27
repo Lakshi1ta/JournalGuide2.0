@@ -21,7 +21,7 @@ export default function QuestionManager({ onClose, onQuestionsUpdate }) {
 
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/auth/questions", {
+      const response = await axios.get("https://als-journal.onrender.com/api/auth/questions", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       setQuestions(response.data.questions);
@@ -35,7 +35,7 @@ export default function QuestionManager({ onClose, onQuestionsUpdate }) {
   const handleSaveQuestions = async () => {
     try {
       setSaveStatus("saving");
-      await axios.put("http://localhost:5000/api/auth/questions", 
+      await axios.put("https://als-journal.onrender.com/api/auth/questions", 
         { questions },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -51,7 +51,7 @@ export default function QuestionManager({ onClose, onQuestionsUpdate }) {
   const handleResetToDefault = async () => {
     if (window.confirm("Reset all questions to default? Your custom questions will be lost.")) {
       try {
-        await axios.post("http://localhost:5000/api/auth/questions/reset", {},
+        await axios.post("https://als-journal.onrender.com/api/auth/questions/reset", {},
           { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
         );
         await fetchQuestions();
@@ -69,7 +69,7 @@ export default function QuestionManager({ onClose, onQuestionsUpdate }) {
     }
     
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/questions",
+      const response = await axios.post("https://als-journal.onrender.com/api/auth/questions",
         newQuestion,
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -90,7 +90,7 @@ export default function QuestionManager({ onClose, onQuestionsUpdate }) {
     
     if (window.confirm("Are you sure you want to remove this question?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/auth/questions/${id}`, {
+        await axios.delete(`https://als-journal.onrender.com/api/auth/questions/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
         });
         setQuestions(questions.filter(q => q.id !== id));

@@ -12,7 +12,7 @@ export default function Insights() {
 
   const fetchJournalEntries = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/journal", {
+      const response = await axios.get("https://als-journal.onrender.com/api/journal", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }

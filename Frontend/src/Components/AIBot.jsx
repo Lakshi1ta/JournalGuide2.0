@@ -36,7 +36,7 @@ export default function AIBot({ mindset, onClose }) {
 
   const fetchWelcomeMessage = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/aibot/welcome?mindset=${mindset}`, {
+      const response = await axios.get(`https://als-journal.onrender.com/api/aibot/welcome?mindset=${mindset}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       

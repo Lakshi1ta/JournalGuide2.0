@@ -18,7 +18,7 @@ export default function Settings({ onClose }) {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/auth/me", {
+      const response = await axios.get("https://als-journal.onrender.com/api/auth/me", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }

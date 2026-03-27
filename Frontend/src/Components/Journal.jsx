@@ -51,7 +51,7 @@ export default function Journal() {
   // Check for today's entry
   const checkTodaysEntry = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/journal/today", {
+      const response = await axios.get("https://als-journal.onrender.com/api/journal/today", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       

@@ -15,7 +15,7 @@ export default function JournalHistory() {
 
   const fetchEntries = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/journal", {
+      const response = await axios.get("https://als-journal.onrender.com/api/journal", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -30,7 +30,7 @@ export default function JournalHistory() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/journal/stats", {
+      const response = await axios.get("https://als-journal.onrender.com/api/journal/stats", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -51,7 +51,7 @@ export default function JournalHistory() {
     setDeleteStatus(prev => ({ ...prev, [id]: 'deleting' }));
 
     try {
-      await axios.delete(`http://localhost:5000/api/journal/${id}`, {
+      await axios.delete(`https://als-journal.onrender.com/api/journal/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -96,7 +96,7 @@ export default function JournalHistory() {
     try {
       // You'll need to create a bulk delete endpoint or loop through entries
       for (const entry of entries) {
-        await axios.delete(`http://localhost:5000/api/journal/${entry._id}`, {
+        await axios.delete(`https://als-journal.onrender.com/api/journal/${entry._id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`
           }

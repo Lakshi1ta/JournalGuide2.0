@@ -93,7 +93,7 @@ export default function Profile() {
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/api/auth/me", {
+      const response = await axios.get("https://als-journal.onrender.com/api/auth/me", {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -109,7 +109,7 @@ export default function Profile() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/journal/stats", {
+      const response = await axios.get("https://als-journal.onrender.com/api/journal/stats", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       setStats(response.data.data);
@@ -121,7 +121,7 @@ export default function Profile() {
 
   const fetchMoodTrend = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/journal", {
+      const response = await axios.get("https://als-journal.onrender.com/api/journal", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       
@@ -158,7 +158,7 @@ export default function Profile() {
 
   const fetchMindset = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/auth/mindset", {
+      const response = await axios.get("https://als-journal.onrender.com/api/auth/mindset", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       setMindset(response.data.mindset);
@@ -182,7 +182,7 @@ export default function Profile() {
       if (field === "email") updateData.email = editValue;
       
       const response = await axios.put(
-        "http://localhost:5000/api/auth/update",
+        "https://als-journal.onrender.com/api/auth/update",
         updateData,
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
@@ -209,7 +209,7 @@ export default function Profile() {
     
     try {
       await axios.put(
-        "http://localhost:5000/api/auth/update",
+        "https://als-journal.onrender.com/api/auth/update",
         { notifications: newNotifications },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );

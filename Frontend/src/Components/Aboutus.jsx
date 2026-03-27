@@ -33,8 +33,8 @@ export default function AboutUs() {
 
   const fetchStats = async () => {
     try {
-      const usersResponse = await axios.get("http://localhost:5000/api/auth/stats");
-      const entriesResponse = await axios.get("http://localhost:5000/api/journal/stats");
+      const usersResponse = await axios.get("https://als-journal.onrender.com/api/auth/stats");
+      const entriesResponse = await axios.get("https://als-journal.onrender.com/api/journal/stats");
       
       setStats({
         totalUsers: usersResponse.data.totalUsers || 1247,

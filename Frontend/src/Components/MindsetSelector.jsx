@@ -12,7 +12,7 @@ export default function MindsetSelector({ onSelect, onClose, currentMindset }) {
     
     try {
       await axios.put(
-        "http://localhost:5000/api/auth/mindset",
+        "https://als-journal.onrender.com/api/auth/mindset",
         { mindset: mindsetId },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
