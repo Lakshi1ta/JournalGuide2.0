@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import QuestionCard from "./QuestionCard";
+import Questioncard from "./Questioncard";
 import axios from "axios";
 import { questionSets } from "../data/questionSets";
 import MindsetSelector from "./MindsetSelector";
@@ -498,7 +498,7 @@ export default function Journal() {
                         Question {currentQuestionIndex + 1} of {displayQuestions.length}
                       </span>
                     </div>
-                    <QuestionCard
+                    <Questioncard
                       key={currentQuestion.id}
                       question={currentQuestion.question}
                       emoji={currentQuestion.emoji}
