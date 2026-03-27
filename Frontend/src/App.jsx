@@ -9,14 +9,14 @@ import {
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
-import Home from "./components/home";
-import Profile from "./components/profile";
-import Journal from "./components/journal";
-import About from "./components/aboutus";
-import JournalHistory from "./components/JournalHistory";
+import Home from "./Components/Home";
+import Profile from "./Components/Profile";
+import Journal from "./Components/Journal";
+import About from "./Components/Aboutus";
+import JournalHistory from "./Components/JournalHistory";
 
-import Navbar from "./components/Navbar";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./Components/Navbar";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
