@@ -1,3 +1,4 @@
+import React from "react";
 export default function ReportCard({ title, value, progress, icon = "📊" }) {
   return (
     <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md p-6 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-xl transition-all hover:scale-[1.02]">
